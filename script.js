@@ -25,13 +25,27 @@ function renderProducts() {
 function renderCart() {}
 
 // Add item to cart
-function addToCart(productId) {}
+function addToCart(productId) {
+	  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+    const productToAdd = products.find(product => product.id === productId);
+    if (productToAdd) {
+        cart.push(productToAdd);
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        updateCartDisplay();
+    }
+}
 
 // Remove item from cart
-function removeFromCart(productId) {}
+function removeFromCart(productId) {
+	 sessionStorage.removeItem("cart");
+    updateCartDisplay();
+}
 
 // Clear cart
-function clearCart() {}
+function clearCart() {
+	  sessionStorage.removeItem("cart");
+    updateCartDisplay();
+}
 
 // Initial render
 renderProducts();
