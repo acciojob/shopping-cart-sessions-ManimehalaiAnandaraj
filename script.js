@@ -26,11 +26,11 @@ function renderCart() {}
 
 // Add item to cart
 function addToCart(productId) {
-	  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+	  let cart = JSON.parse(sessionStorage.getItem("li")) || [];
     const productToAdd = products.find(product => product.id === productId);
     if (productToAdd) {
         cart.push(productToAdd);
-        sessionStorage.setItem("cart", JSON.stringify(cart));
+        sessionStorage.setItem("li", JSON.stringify(li));
         updateCartDisplay();
     }
 }
