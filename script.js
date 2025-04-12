@@ -37,7 +37,7 @@ function addToCart(productId) {
   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
   const productToAdd = products.find(product => product.id === productId);
   
-  if (productToAdd) {
+  if (productToAdd && !cart.some(product => product.id === productId)) {
     cart.push(productToAdd);
     sessionStorage.setItem("cart", JSON.stringify(cart));
     renderCart();
