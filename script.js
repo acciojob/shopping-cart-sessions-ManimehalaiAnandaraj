@@ -6,7 +6,6 @@ const products = [
   { id: 5, name: "Product 5", price: 50 },
 ];
 
-
 // DOM elements
 const productList = document.getElementById("product-list");
 const cartList = document.getElementById("cart-list");
@@ -37,10 +36,14 @@ function addToCart(productId) {
   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
   const productToAdd = products.find(product => product.id === productId);
   
+  // Check if the product is already in the cart
   if (productToAdd && !cart.some(product => product.id === productId)) {
     cart.push(productToAdd);
     sessionStorage.setItem("cart", JSON.stringify(cart));
+    console.log("Cart after adding:", cart); // Debugging
     renderCart();
+  } else {
+    console.log("Product already in cart or not found."); // Debugging
   }
 }
 
@@ -49,6 +52,7 @@ function removeFromCart(productId) {
   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
   cart = cart.filter(product => product.id !== productId);
   sessionStorage.setItem("cart", JSON.stringify(cart));
+  console.log("Cart after removing:", cart); // Debugging
   renderCart();
 }
 
@@ -76,7 +80,7 @@ cartList.addEventListener("click", (event) => {
 clearCartBtn.addEventListener("click", clearCart);
 
 // Initial render
-
-renderProducts();
-renderCart();
-
+document.addEventListener("DOMContentLoaded", () => {
+  renderProducts();
+  renderCart();
+});
