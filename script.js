@@ -1,6 +1,3 @@
-// This is the boilerplate code given for you
-// You can modify this code
-// Product data
 const products = [
   { id: 1, name: "Product 1", price: 10 },
   { id: 2, name: "Product 2", price: 20 },
@@ -25,7 +22,7 @@ function renderProducts() {
 
 // Render cart list
 function renderCart() {
-	const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+  const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
   cartList.innerHTML = ''; // Clear the cart list before rendering
   cart.forEach((product) => {
     const li = document.createElement("li");
@@ -36,18 +33,19 @@ function renderCart() {
 
 // Add item to cart
 function addToCart(productId) {
-	  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-    const productToAdd = products.find(product => product.id === productId);
-    if (productToAdd) {
-        cart.push(productToAdd);
-        sessionStorage.setItem("cart", JSON.stringify(cart));
-        renderCart();
-    }
+  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+  const productToAdd = products.find(product => product.id === productId);
+  
+  if (productToAdd) {
+    cart.push(productToAdd);
+    sessionStorage.setItem("cart", JSON.stringify(cart));
+    renderCart();
+  }
 }
 
 // Remove item from cart
 function removeFromCart(productId) {
-let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
   cart = cart.filter(product => product.id !== productId);
   sessionStorage.setItem("cart", JSON.stringify(cart));
   renderCart();
@@ -55,8 +53,8 @@ let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
 
 // Clear cart
 function clearCart() {
-	  sessionStorage.removeItem("cart");
-    renderCart();
+  sessionStorage.removeItem("cart");
+  renderCart();
 }
 
 // Event Listeners
