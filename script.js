@@ -11,6 +11,8 @@ const products = [
 
 // DOM elements
 const productList = document.getElementById("product-list");
+const cartList = document.getElementById("cart-list");
+const clearCartBtn = document.getElementById("clear-cart-btn");
 
 // Render product list
 function renderProducts() {
@@ -22,30 +24,57 @@ function renderProducts() {
 }
 
 // Render cart list
-function renderCart() {}
+function renderCart() {
+	const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+  cartList.innerHTML = ''; // Clear the cart list before rendering
+  cart.forEach((product) => {
+    const li = document.createElement("li");
+    li.innerHTML = `${product.name} - $${product.price} <button class="remove-from-cart-btn" data-id="${product.id}">Remove</button>`;
+    cartList.appendChild(li);
+  });
+}
 
 // Add item to cart
 function addToCart(productId) {
-	  let cart = JSON.parse(sessionStorage.getItem("li")) || [];
+	  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
     const productToAdd = products.find(product => product.id === productId);
     if (productToAdd) {
         cart.push(productToAdd);
-        sessionStorage.setItem("li", JSON.stringify(li));
-        updateCartDisplay();
+        sessionStorage.setItem("cart", JSON.stringify(cart));
+        renderCart();
     }
 }
 
 // Remove item from cart
 function removeFromCart(productId) {
-	 sessionStorage.removeItem("cart");
-    updateCartDisplay();
+let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+  cart = cart.filter(product => product.id !== productId);
+  sessionStorage.setItem("cart", JSON.stringify(cart));
+  renderCart();
 }
 
 // Clear cart
 function clearCart() {
 	  sessionStorage.removeItem("cart");
-    updateCartDisplay();
+    renderCart();
 }
+
+// Event Listeners
+productList.addEventListener("click", (event) => {
+  if (event.target.classList.contains("add-to-cart-btn")) {
+    const productId = parseInt(event.target.getAttribute("data-id"));
+    addToCart(productId);
+  }
+});
+
+cartList.addEventListener("click", (event) => {
+  if (event.target.classList.contains("remove-from-cart-btn")) {
+    const productId = parseInt(event.target.getAttribute("data-id"));
+    removeFromCart(productId);
+  }
+});
+
+clearCartBtn.addEventListener("click", clearCart);
 
 // Initial render
 renderProducts();
