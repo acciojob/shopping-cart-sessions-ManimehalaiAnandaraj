@@ -40,13 +40,9 @@ function addToCart(productId) {
   if (productToAdd && !cart.some(product => product.id === productId)) {
     cart.push(productToAdd);
     sessionStorage.setItem("cart", JSON.stringify(cart));
-    console.log("Cart after adding:", cart); // Debugging
     renderCart();
-  } else {
-    console.log("Product already in cart or not found."); // Debugging
-  }
+  } 
 }
-
 // Remove item from cart
 function removeFromCart(productId) {
   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
