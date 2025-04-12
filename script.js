@@ -76,7 +76,7 @@ cartList.addEventListener("click", (event) => {
 clearCartBtn.addEventListener("click", clearCart);
 
 // Initial render
-document.addEventListener("DOMContentLoaded", () => {
+
 renderProducts();
 renderCart();
-});
+
