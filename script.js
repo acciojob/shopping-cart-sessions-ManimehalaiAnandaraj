@@ -33,13 +33,14 @@ function renderCart() {
 
 // Add item to cart
 function addToCart(productId) {
-  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+  let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
   const productToAdd = products.find(product => product.id === productId);
   
   // Check if the product is already in the cart
   if (productToAdd && !cart.some(product => product.id === productId)) {
     cart.push(productToAdd);
-    sessionStorage.setItem("cart", JSON.stringify(cart));
+    sessionStorage.setItem('cart', JSON.stringify(cart));
+	   console.log("Current cart:", cart); 
     renderCart();
   } 
 }
