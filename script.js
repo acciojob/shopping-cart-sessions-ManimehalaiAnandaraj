@@ -33,19 +33,23 @@ function renderCart() {
 
 // Add item to cart
 function addToCart(productId) {
-  let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-  const productToAdd = products.find(product => product.id === productId);
-  
-  // Check if the product is already in the cart
-  if (productToAdd && !cart.some(product => product.id === productId)) {
-    cart.push(productToAdd);
-    sessionStorage.setItem('cart', JSON.stringify(cart));
-	    alert("Current cart:" + JSON.stringify(cart));
+    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+    const productToAdd = products.find(product => product.id === productId);
+    
+    // Check if the product is already in the cart
+    if (productToAdd && !cart.some(product => product.id === productId)) {
+        cart.push(productToAdd);
+        sessionStorage.setItem('cart', JSON.stringify(cart));
         
-    renderCart();
-	  
-  }
+        // Alert the current state of the cart
+        alert("Current cart: " + JSON.stringify(cart)); // Show the entire cart
+        
+        renderCart();
+    } else {
+        alert("Product is already in the cart."); // Optional: Notify if the product is already there
+    }
 }
+
 // Remove item from cart
 function removeFromCart(productId) {
   let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
