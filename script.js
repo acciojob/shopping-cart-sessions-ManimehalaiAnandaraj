@@ -40,9 +40,11 @@ function addToCart(productId) {
   if (productToAdd && !cart.some(product => product.id === productId)) {
     cart.push(productToAdd);
     sessionStorage.setItem('cart', JSON.stringify(cart));
-	   console.log("Current cart:", cart); 
+	    alert("Current cart:" + JSON.stringify(cart));
+        
     renderCart();
-  } 
+	  
+  }
 }
 // Remove item from cart
 function removeFromCart(productId) {
