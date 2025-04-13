@@ -39,15 +39,9 @@ function addToCart(productId) {
     // Check if the product is already in the cart
     if (productToAdd && !cart.some(product => product.id === productId)) {
         cart.push(productToAdd);
-        sessionStorage.setItem('cart', JSON.stringify(cart));
-        
-        // Alert the current state of the cart
-        alert("Current cart: " + JSON.stringify(cart)); // Show the entire cart
-        
+        sessionStorage.setItem('cart', JSON.stringify(cart));   
         renderCart();
-    } else {
-        alert("Product is already in the cart."); // Optional: Notify if the product is already there
-    }
+       }
 }
 
 // Remove item from cart
