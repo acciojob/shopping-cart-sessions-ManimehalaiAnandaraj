@@ -40,7 +40,7 @@ function addToCart(productId) {
   if (productToAdd && !cart.some(product => product.id === productId)) {
     cart.push(productToAdd);
     sessionStorage.setItem('cart', JSON.stringify(cart));
-	    alert("Current cart:" + JSON.stringify(cart));
+	    alert("Current cart:" + JSON.stringify(productToAdd));
         
     renderCart();
 	  
