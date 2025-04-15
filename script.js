@@ -3,7 +3,7 @@ const products = [
   { id: 2, name: "Product 2", price: 20 },
   { id: 3, name: "Product 3", price: 30 },
   { id: 4, name: "Product 4", price: 40 },
-  { id: 5, name: "Product 5", price: 50 }
+  { id: 5, name: "Product 5", price: 50 },
 ];
 
 // DOM elements
@@ -11,77 +11,74 @@ const productList = document.getElementById("product-list");
 const cartList = document.getElementById("cart-list");
 const clearCartBtn = document.getElementById("clear-cart-btn");
 
+// Load cart from sessionStorage
+let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
+
 // Render product list
 function renderProducts() {
+  productList.innerHTML = ""; // Clear previous content
   products.forEach((product) => {
     const li = document.createElement("li");
-    li.innerHTML = `${product.name} - $${product.price} <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>`;
+    li.innerHTML = `${product.name} - $${product.price} 
+      <button class="add-to-cart-btn" data-id="${product.id}">Add to Cart</button>`;
     productList.appendChild(li);
   });
 }
 
 // Render cart list
 function renderCart() {
-  const cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-  cartList.innerHTML = ''; // Clear the cart list before rendering
+  cartList.innerHTML = ""; // Clear cart before rendering
+
+  if (cart.length === 0) {
+    return; // Ensure the cart is completely empty
+  }
+
   cart.forEach((product) => {
     const li = document.createElement("li");
-    li.innerHTML = `${product.name} - $${product.price} <button class="remove-from-cart-btn" data-id="${product.id}">Remove</button>`;
+    li.innerHTML = `${product.name} - $${product.price} 
+      <button class="remove-from-cart-btn" data-id="${product.id}">Remove</button>`;
     cartList.appendChild(li);
   });
+
+  // Save cart to sessionStorage
+  sessionStorage.setItem("cart", JSON.stringify(cart));
 }
 
 // Add item to cart
 function addToCart(productId) {
-    let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
-    const productToAdd = products.find(product => product.id === productId);
-    
-    // Check if the product is already in the cart
-    if (productToAdd && !cart.some(product => product.id === productId)) {
-        cart.push(productToAdd);
-        sessionStorage.setItem('cart', JSON.stringify(cart));   
-         alert("Current cart: " + JSON.stringify(cart)); // Show the entire cart
-        window.sessionStorage;
-        renderCart();
-    } else {
-        alert("Product is already in the cart.");
-       }
+  const product = products.find((p) => p.id === productId);
+  if (product) {
+    cart.push(product);
+    renderCart();
+  }
 }
 
 // Remove item from cart
 function removeFromCart(productId) {
-  let cart = JSON.parse(sessionStorage.getItem("cart")) || [];
-  cart = cart.filter(product => product.id !== productId);
-  sessionStorage.setItem("cart", JSON.stringify(cart));
-  console.log("Cart after removing:", cart); // Debugging
+  cart = cart.filter((product) => product.id !== productId);
   renderCart();
 }
 
 // Clear cart
 function clearCart() {
-  sessionStorage.removeItem("cart");
+  cart = [];
   renderCart();
 }
 
-// Event Listeners
-productList.addEventListener("click", (event) => {
+// Event delegation for adding and removing items
+document.addEventListener("click", function (event) {
   if (event.target.classList.contains("add-to-cart-btn")) {
-    const productId = parseInt(event.target.getAttribute("data-id"));
+    const productId = parseInt(event.target.dataset.id);
     addToCart(productId);
-  }
-});
-
-cartList.addEventListener("click", (event) => {
-  if (event.target.classList.contains("remove-from-cart-btn")) {
-    const productId = parseInt(event.target.getAttribute("data-id"));
+  } else if (event.target.classList.contains("remove-from-cart-btn")) {
+    const productId = parseInt(event.target.dataset.id);
     removeFromCart(productId);
   }
 });
 
+// Clear cart button event listener
 clearCartBtn.addEventListener("click", clearCart);
 
 // Initial render
-document.addEventListener("DOMContentLoaded", () => {
-  renderProducts();
-  renderCart();
-});
+renderProducts();
+renderCart();
