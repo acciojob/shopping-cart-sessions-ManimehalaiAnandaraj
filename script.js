@@ -41,7 +41,7 @@ function addToCart(productId) {
         cart.push(productToAdd);
         sessionStorage.setItem('cart', JSON.stringify(cart));   
          alert("Current cart: " + JSON.stringify(cart)); // Show the entire cart
-        
+        window.sessionStorage;
         renderCart();
     } else {
         alert("Product is already in the cart.");
